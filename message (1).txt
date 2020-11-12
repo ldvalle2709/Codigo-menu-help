@@ -1,0 +1,190 @@
+#include <iostream>
+#include <string>
+#include <time.h>
+
+using namespace std;
+
+void menu();
+int buy(int money);
+int sell(int money);
+void end();
+void dead();
+
+int deadCounte = 0;
+
+string bag[20];
+int c = 0;
+string item[] = { "Dagger", "Sword", "Bow", "longSword", "axe" };
+int pre[] = { 10,15,13,15 };
+int loop = 5;
+
+int main()
+{
+
+	cout << "Bienvenidos a la tienda\"algo\n";
+	system("pause");
+	menu();
+
+	return 0;
+
+}
+
+void menu()
+{
+
+	srand(time(NULL));
+
+	int dinero = rand() % 200 + 20;
+	int op;
+
+	do
+	{
+		system("cls");
+		cout << "Wallet: " << dinero << "gp";
+		for (int i = 0; i < 5; i++)
+			cout << endl;
+
+		cout << "Que quieres hacer?\n"
+			<< "1) comprar\n"
+			<< "2) vender\n"
+			<< "3) salir\n";
+		cin >> op;
+
+		switch (op)
+		{
+		case 1:
+			dinero -= buy(dinero);
+			if (deadCounte >= 3)op = 3;
+			break;
+		case 2:
+			dinero += sell(dinero);
+			break;
+		case 3:
+			end();
+			break;
+		default:
+			cout << "No es una opcion!\n\n";
+			system("pause");
+			system("cls");
+
+		}
+
+		int buy(int money)
+		{
+			system("cls");
+			int op, precio;
+
+			for (int i = 0; i < loop; i++)
+			{
+				cout << i + 1 << ") " << items[i] << " - " << pre[i] << " gp\n";
+			}
+			cin >> op;
+			if (money < pre[op - 1])
+			{
+				cout << "No tienes dinero\n";
+				op = 4;
+				deadCounter++;
+				if (deadCounter = 3)dead();
+			}
+			else
+			{
+
+				do
+				{
+					cout << "Wallet: " << money << "gp"; for (int i = 0; i < 5; i++) cout << endl;
+
+					if (op <= loop && !op <= 0)
+					{
+						bag[c] = items[op - 1];
+						c++;
+						precio = pre[op - 1];
+						return precio;
+					}
+					else
+					{
+						cout << "No es una opcion!\N\N;";
+						system("pause");
+						system("cls");
+						break
+					}
+
+				} while (op != 3);
+			}
+			return 0;
+
+
+
+
+
+		}
+
+		int sell(int money)
+		{
+			int op, opp, PlusMoney;
+
+			cout << "Wallet: " << money << "gp\n\n";
+			cout << "Bag: "; for (int i = 0; i < c; i++)
+			{
+				cout << bag[i];
+				if (i == c - 1) cout << ",";
+				else cout << ",  ";
+			}for (int i = 0; i < 5; i++) cout << endl;
+			cout << "Cual deseas vender? ";
+			cin >> op;
+			for (int i = 0; i < loop; i++) cout << endl;
+			{
+				if (items[i] == bag[op - 1])
+				{
+					cout << "Por eso te dare " << (PlusMoney = pre[i] - (rand() % 5 + 1)) << endl;
+					cout << "Deacuerdo? (si = 1,no = 2)";
+					cin >> opp;
+					if (opp == 1)
+					{
+						for (int i = op - 1; i < c; ++i)
+							bag[1] = bag[i + 1];
+						c--;
+						cout << "Perfecto\n";
+						system("pause");
+						return PlusMoney;
+					}
+					else
+					{
+						cout << "lastima\n";
+						system("pause");
+						return 0;
+					}
+
+
+				}
+				else if (i == loop - 1)
+					cout << "No es una opcion!\n";
+			}
+			system("pause");
+			return 0;
+
+
+
+
+
+
+		}
+
+		void end()
+		{
+			cout << "Gracias por venir";
+		}
+		void dead()
+		{
+			cout << "No se le permitira el acceso\n";
+		}
+
+
+	}
+
+
+
+
+
+
+
+}
